@@ -1,0 +1,15 @@
+{
+  "name": "blcapital-website",
+  "version": "1.0.0",
+  "description": "BL Capital Ltd Website with Netlify Functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["netlify", "serverless", "email"],
+  "author": "BL Capital Ltd",
+  "license": "ISC",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}

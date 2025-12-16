@@ -1,0 +1,29 @@
+# BL Capital Website .gitignore
+
+# SMTP Configuration - NEVER commit credentials
+forms/smtp-config.php
+
+# PHPMailer (can be reinstalled)
+assets/vendor/PHPMailer/
+
+# Node.js and Netlify
+node_modules/
+.netlify/
+package-lock.json
+.env
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.log

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Test - BL Capital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .message.loading {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #0c5460;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .info {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+
+        .info h3 {
+            color: #1976D2;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .info p {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📧 Contact Form Test</h1>
+        <p class="subtitle">BL Capital Website - Email Functionality Verification</p>
+
+        <div class="info">
+            <h3>ℹ️ Test Information</h3>
+            <p>This form will test the Google SMTP email functionality. Fill out all fields and submit. If configured
+                correctly, you should receive an email at <strong>blcapital.info@gmail.com</strong>.</p>
+        </div>
+
+        <form id="testForm">
+            <div class="form-group">
+                <label for="name">Your Name *</label>
+                <input type="text" id="name" name="name" required placeholder="John Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your Email *</label>
+                <input type="email" id="email" name="email" required placeholder="john@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+254 712 345 678">
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject *</label>
+                <input type="text" id="subject" name="subject" required placeholder="Test Email Functionality">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required
+                    placeholder="This is a test message to verify the email functionality is working correctly."></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn">Send Test Email</button>
+
+            <div id="responseMessage" class="message"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('testForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const responseMessage = document.getElementById('responseMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            // Show loading message
+            responseMessage.className = 'message loading';
+            responseMessage.style.display = 'block';
+            responseMessage.innerHTML = '<span class="spinner"></span>Sending email via Google SMTP...';
+
+            // Collect form data
+            const formData = new FormData(form);
+
+            try {
+                // Send the form data to the PHP handler
+                const response = await fetch('forms/contact.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.text();
+
+                if (response.ok && result.includes('OK')) {
+                    // Success
+                    responseMessage.className = 'message success';
+                    responseMessage.innerHTML = '✅ <strong>Success!</strong> Email sent successfully via Google SMTP.<br>Check <strong>blcapital.info@gmail.com</strong> for the test message.';
+                    form.reset();
+                } else {
+                    // Error
+                    responseMessage.className = 'message error';
+                    responseMessage.innerHTML = `❌ <strong>Error:</strong> ${result}<br><br><strong>Troubleshooting:</strong><br>
+                    1. Verify your Google App Password in forms/smtp-config.php<br>
+                    2. Ensure 2-factor authentication is enabled on your Google account<br>
+                    3. Check that PHPMailer is installed in assets/vendor/PHPMailer/<br>
+                    4. Enable debug mode in smtp-config.php for more details`;
+                }
+            } catch (error) {
+                // Network or other error
+                responseMessage.className = 'message error';
+                responseMessage.innerHTML = `❌ <strong>Network Error:</strong> ${error.message}<br><br>
+                <strong>Note:</strong> This test requires a PHP server to work. Python's HTTP server cannot execute PHP files.<br><br>
+                <strong>Options:</strong><br>
+                1. Install PHP and run: <code>php -S localhost:8000</code><br>
+                2. Use XAMPP/WAMP/MAMP<br>
+                3. Upload to your production hosting and test there`;
+            }
+
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Test Email';
+        });
+    </script>
+</body>
+
+</html>
